@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WeatherGPT — AI-Powered Hyperlocal Weather Intelligence</title>
+<meta name="description" content="WeatherGPT — SIH26068 prototype. Weather information, turned into weather decisions." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== LOADER ===================== -->
+<div id="loader">
+  <div class="loader-mark">Weather<span>GPT</span></div>
+  <div class="loader-ring"></div>
+  <div class="loader-stage" id="loaderStage">Initializing weather intelligence…</div>
+</div>
+
+<!-- ===================== NAV ===================== -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="logo"><span class="logo-dot"></span>WeatherGPT</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" data-nav>Home</a></li>
+      <li><a href="#chat" data-nav>AI Assistant</a></li>
+      <li><a href="#map" data-nav>Map</a></li>
+      <li><a href="#farmer" data-nav>Farmer</a></li>
+      <li><a href="#travel" data-nav>Travel</a></li>
+      <li><a href="#alerts" data-nav>Alerts</a></li>
+      <li><a href="#architecture" data-nav>Technology</a></li>
+    </ul>
+    <a href="#chat" class="btn btn-primary nav-cta">Try WeatherGPT</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><i data-lucide="menu"></i></button>
+  </div>
+</nav>
+
+<!-- ===================== SECTION 1 — HERO ===================== -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="hero-content">
+      <div class="badge-row">
+        <span class="badge">Real-Time Weather</span>
+        <span class="badge">Hyperlocal Intelligence</span>
+        <span class="badge">AI Powered</span>
+        <span class="badge">Multilingual</span>
+        <span class="badge">Disaster Alerts</span>
+      </div>
+      <h1 class="hero-title">Don't just check the weather.<br><span class="grad">Know what to do.</span></h1>
+      <p class="hero-sub">WeatherGPT combines weather intelligence, your location, your context and AI to transform forecasts into personalized, actionable decisions.</p>
+      <div class="hero-actions">
+        <a href="#chat" class="btn btn-primary btn-lg">Try WeatherGPT</a>
+        <a href="#difference" class="btn btn-ghost btn-lg">Explore how it works</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator"><div class="line"></div>Scroll</div>
+</section>
+
+<!-- ===================== SECTION 2 — LIVE WEATHER DASHBOARD ===================== -->
+<section id="dashboard" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="radio" style="width:14px"></i> Live weather experience</span>
+      <h2>Your forecast, the way WeatherGPT sees it</h2>
+      <p>Prototype data shown below — structured so real weather APIs can drop in without changing the interface.</p>
+    </div>
+    <div class="dash-card reveal">
+      <div class="dash-top">
+        <div>
+          <div class="dash-loc"><i data-lucide="map-pin" style="width:15px"></i> <span id="dashCity"></span></div>
+          <div class="dash-temp"><span id="dashTemp"></span>°C</div>
+          <div class="dash-cond"><span id="dashCond"></span> · Feels like <span id="dashFeels"></span>°C</div>
+        </div>
+        <div class="metric-grid" id="metricGrid" style="max-width:520px;"></div>
+      </div>
+      <div class="hourly-row" id="hourlyRow"></div>
+      <div class="daily-list" id="dailyList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 3 — AI CHAT ===================== -->
+<section id="chat" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="sparkles" style="width:14px"></i> WeatherGPT AI</span>
+      <h2>Ask anything about your weather</h2>
+      <p>Pick a sample question below and watch WeatherGPT retrieve, validate and explain — before it ever answers.</p>
+    </div>
+    <div class="chat-shell reveal">
+      <div class="chat-head">
+        <div class="chat-avatar"><i data-lucide="cloud-sun" style="width:20px"></i></div>
+        <div>
+          <div style="font-weight:600;">WeatherGPT AI</div>
+          <div class="chat-status"><span class="dot"></span>Weather Intelligence Online</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-chips" id="chatChips"></div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="Ask anything about your weather..." />
+        <button class="chat-send" id="chatSend" aria-label="Send"><i data-lucide="arrow-up" style="width:18px"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 4 — CORE DIFFERENCE ===================== -->
+<section id="difference" class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="max-width:680px; margin-left:auto; margin-right:auto; text-align:center;">
+      <span class="section-tag">The core difference</span>
+      <h2>Weather information vs. weather decision</h2>
+    </div>
+    <div class="compare-grid reveal">
+      <div class="compare-card old">
+        <div class="compare-label">Normal weather app</div>
+        <div class="big">72%<span style="font-size:1.2rem; color:var(--text-2);"> chance of rain</span></div>
+        <div style="color:var(--text-1);">31°C · Humidity 78%</div>
+      </div>
+      <div class="compare-arrow"><i data-lucide="arrow-right" style="width:30px"></i></div>
+      <div class="compare-card new">
+        <div class="compare-label" style="color:var(--cyan);">WeatherGPT</div>
+        <p>"Rain is expected around your 9 AM commute. Carry an umbrella and allow a little extra travel time."</p>
+      </div>
+    </div>
+    <div class="center-statement reveal">Weather information <span class="grad">becomes</span> weather decision.</div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 5 — PERSONALIZED WEATHER ===================== -->
+<section id="personas" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Personalized weather</span>
+      <h2>Same weather. Different context. Different decision.</h2>
+      <p>Click a persona to see how one forecast turns into five different pieces of advice.</p>
+    </div>
+    <div class="persona-layout reveal">
+      <div class="persona-condition">
+        <span class="section-tag">Current condition</span>
+        <div class="cond-label" id="personaCondition">Heavy Rain Expected</div>
+        <div class="persona-advice-box" id="personaAdvice"></div>
+      </div>
+      <div class="persona-list" id="personaList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 6 — FARMER MODE ===================== -->
+<section id="farmer" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag farmer-badge"><i data-lucide="sprout" style="width:14px"></i> Farmer Mode</span>
+      <h2>Weather-based agricultural decision support</h2>
+      <p>WeatherGPT combines weather conditions with agricultural advisory rules to support weather-aware farming decisions.</p>
+    </div>
+    <div class="farmer-hero-card reveal">
+      <div class="dash-loc"><i data-lucide="map-pin" style="width:15px"></i> <span id="farmerLoc"></span></div>
+      <div style="font-family:var(--font-display); font-size:1.6rem; margin-top:10px;" id="farmerAdvisory"></div>
+      <div style="color:var(--green); margin-top:6px;" id="farmerRecommendation"></div>
+    </div>
+    <div class="farmer-cards reveal" id="farmerStats"></div>
+    <div class="advisory-grid reveal" id="farmerAdvisoryGrid"></div>
+    <div class="disclaimer reveal">This advisory is weather-based decision support and does not replace professional agricultural guidance.</div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 7 — TRAVEL PLANNER ===================== -->
+<section id="travel" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="route" style="width:14px"></i> Travel weather planner</span>
+      <h2>Check the weather along your whole route</h2>
+      <p>Not just the destination — every stop in between.</p>
+    </div>
+    <div class="travel-panel reveal">
+      <div class="travel-form">
+        <div class="field"><label>From</label><div class="field-value" id="routeFrom"></div></div>
+        <div class="field"><label>To</label><div class="field-value" id="routeTo"></div></div>
+        <button class="btn btn-primary" id="analyzeRoute" style="width:100%; justify-content:center; display:flex;">Analyze route weather</button>
+        <div class="slider-row">
+          <label>Departure time — <span id="departLabel">8:00 AM</span></label>
+          <input type="range" min="0" max="8" value="0" id="departSlider">
+        </div>
+      </div>
+      <div class="route-map">
+        <svg id="routeSvg" viewBox="0 0 620 340" style="width:100%; height:auto;"></svg>
+        <div class="route-summary">
+          <div class="risk-pill" id="riskPill">Overall risk: Moderate</div>
+          <div style="color:var(--text-1); font-size:0.92rem; max-width:400px;" id="routeRecommendation"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 8 — DISASTER ALERT CENTER ===================== -->
+<section id="alerts" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="shield-alert" style="width:14px"></i> Alert Center</span>
+      <h2>WeatherGPT Alert Center</h2>
+      <p>WeatherGPT does not invent disaster warnings — it rephrases official, verified alerts into simple, actionable advisories.</p>
+    </div>
+    <div class="alert-grid reveal" id="alertGrid"></div>
+    <div class="pipeline-strip reveal">
+      <span class="node">Official / verified weather alert</span>
+      <span class="arrow"><i data-lucide="arrow-right" style="width:16px"></i></span>
+      <span class="node">WeatherGPT</span>
+      <span class="arrow"><i data-lucide="arrow-right" style="width:16px"></i></span>
+      <span class="node">Simple actionable advisory</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 9 — HYPERLOCAL MAP ===================== -->
+<section id="map" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="map" style="width:14px"></i> Hyperlocal weather map</span>
+      <h2>Weather can vary within the same city</h2>
+      <p>Toggle a layer to see how conditions shift block by block.</p>
+    </div>
+    <div class="map-wrap reveal">
+      <div class="map-toggles" id="mapToggles">
+        <button class="toggle-btn active" data-layer="temp">Temperature</button>
+        <button class="toggle-btn" data-layer="rain">Rain</button>
+        <button class="toggle-btn" data-layer="wind">Wind</button>
+        <button class="toggle-btn" data-layer="alerts">Alerts</button>
+      </div>
+      <svg id="citySvg" viewBox="0 0 500 300" style="width:100%; height:auto;"></svg>
+      <div class="legend-row">
+        <span><span class="legend-dot" style="background:var(--green);"></span>Clear</span>
+        <span><span class="legend-dot" style="background:var(--text-2);"></span>Cloudy</span>
+        <span><span class="legend-dot" style="background:var(--cyan);"></span>Rain</span>
+        <span><span class="legend-dot" style="background:var(--amber);"></span>Thunderstorm</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 10 — SCHEDULE-AWARE WEATHER ===================== -->
+<section id="schedule" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="calendar-clock" style="width:14px"></i> Schedule-aware weather</span>
+      <h2>Your schedule + the forecast + your location</h2>
+      <p>WeatherGPT lines up your day against the forecast to flag exactly the moments that need a decision.</p>
+    </div>
+    <div class="timeline reveal" id="timeline"></div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 11 — PROACTIVE NOTIFICATIONS ===================== -->
+<section id="notifications" class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="text-align:center; max-width:600px; margin-left:auto; margin-right:auto;">
+      <span class="section-tag">Proactive notifications</span>
+      <h2>WeatherGPT reaches out before you have to ask</h2>
+    </div>
+    <div class="notif-stack" id="notifStack"></div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 12 — MULTILINGUAL + VOICE ===================== -->
+<section id="voice" class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="text-align:center; max-width:600px; margin-left:auto; margin-right:auto;">
+      <span class="section-tag"><i data-lucide="mic" style="width:14px"></i> Multilingual voice assistant</span>
+      <h2>Ask WeatherGPT out loud, in your language</h2>
+    </div>
+    <div class="voice-panel reveal">
+      <button class="mic-btn" id="micBtn"><i data-lucide="mic" style="width:26px"></i></button>
+      <div class="wave" id="wave"></div>
+      <div class="lang-row" id="langRow">
+        <button class="toggle-btn active" data-lang="en">English</button>
+        <button class="toggle-btn" data-lang="hi">Hindi</button>
+        <button class="toggle-btn" data-lang="hinglish">Hinglish</button>
+        <button class="toggle-btn" data-lang="gu">Gujarati</button>
+      </div>
+      <div class="voice-qa">
+        <div class="vq">You said</div>
+        <div class="vline" id="voiceQ"></div>
+        <div class="vq">WeatherGPT</div>
+        <div class="vline" id="voiceA" style="margin-bottom:0;"></div>
+      </div>
+      <div class="voice-pipeline">
+        <span class="node" style="background:var(--surface); border:1px solid var(--surface-border); padding:8px 14px; border-radius:100px;">Voice</span>
+        <i data-lucide="arrow-right" style="width:14px"></i>
+        <span class="node" style="background:var(--surface); border:1px solid var(--surface-border); padding:8px 14px; border-radius:100px;">Speech-to-text</span>
+        <i data-lucide="arrow-right" style="width:14px"></i>
+        <span class="node" style="background:var(--surface); border:1px solid var(--surface-border); padding:8px 14px; border-radius:100px;">AI / NLP</span>
+        <i data-lucide="arrow-right" style="width:14px"></i>
+        <span class="node" style="background:var(--surface); border:1px solid var(--surface-border); padding:8px 14px; border-radius:100px;">Weather intelligence</span>
+        <i data-lucide="arrow-right" style="width:14px"></i>
+        <span class="node" style="background:var(--surface); border:1px solid var(--surface-border); padding:8px 14px; border-radius:100px;">Text / voice response</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 13 — AI SAFETY ===================== -->
+<section id="safety" class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="max-width:680px; margin-left:auto; margin-right:auto; text-align:center;">
+      <span class="section-tag">AI safety &amp; hallucination control</span>
+      <h2>The LLM does not predict the weather</h2>
+    </div>
+    <div class="safety-compare reveal">
+      <div class="flow-card wrong">
+        <div class="compare-label" style="margin-bottom:14px;">Wrong approach</div>
+        <div class="flow-step">User</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">LLM</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">Weather guess</div>
+        <div class="flow-result no">✕ Unreliable</div>
+      </div>
+      <div class="flow-card right">
+        <div class="compare-label" style="margin-bottom:14px; color:var(--green);">WeatherGPT approach</div>
+        <div class="flow-step">User</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">Weather data sources</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">Data validation</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">Rule engine</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">AI / LLM</div>
+        <div class="flow-arrow-v">↓</div>
+        <div class="flow-step">Human-friendly advisory</div>
+        <div class="flow-result yes">✓ Verified</div>
+      </div>
+    </div>
+    <div class="safety-statement reveal">Weather facts are retrieved and validated first.</div>
+    <p class="safety-sub reveal">AI converts already-verified information into understandable, contextual responses — it never invents a forecast.</p>
+  </div>
+</section>
+
+<!-- ===================== SECTION 14 — TECHNICAL ARCHITECTURE ===================== -->
+<section id="architecture" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag"><i data-lucide="layers" style="width:14px"></i> Technical architecture</span>
+      <h2>How a question becomes a decision</h2>
+      <p>This is the planned production architecture — the prototype simulates this flow on the frontend. Hover or tap a stage for detail.</p>
+    </div>
+    <div class="arch-diagram reveal" id="archDiagram"></div>
+    <div class="arch-detail reveal" id="archDetail">Hover a stage above to see what it does.</div>
+    <div class="tech-columns reveal">
+      <div class="tech-col"><h4>Frontend</h4><ul><li>React / Next.js</li><li>Responsive Web UI</li><li>Maps</li><li>Geolocation</li></ul></div>
+      <div class="tech-col"><h4>Backend</h4><ul><li>Python</li><li>FastAPI</li><li>REST APIs</li></ul></div>
+      <div class="tech-col"><h4>AI / NLP</h4><ul><li>LLM</li><li>Intent detection</li><li>Retrieval-based weather answering</li><li>Multilingual processing</li></ul></div>
+      <div class="tech-col"><h4>Database</h4><ul><li>PostgreSQL</li><li>PostGIS</li><li>Cache layer</li></ul></div>
+      <div class="tech-col"><h4>Voice</h4><ul><li>Speech-to-text</li><li>Text-to-speech</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 15 — DATA SOURCES ===================== -->
+<section id="sources" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Weather data sources</span>
+      <h2>Facts come from trusted sources — not the model</h2>
+    </div>
+    <div class="source-grid reveal" id="sourceGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 16 — CHALLENGES & SOLUTIONS ===================== -->
+<section id="challenges" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Challenges &amp; solutions</span>
+      <h2>What we had to design around</h2>
+      <p>Tap a card to see how WeatherGPT handles it.</p>
+    </div>
+    <div class="challenge-grid reveal" id="challengeGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 17 — IMPACT ===================== -->
+<section id="impact" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Impact</span>
+      <h2>Who this actually helps</h2>
+    </div>
+    <div class="impact-grid reveal" id="impactGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 18 — FEASIBILITY ===================== -->
+<section id="feasibility" class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="text-align:center; max-width:640px; margin-left:auto; margin-right:auto;">
+      <span class="section-tag">Feasibility</span>
+      <h2>The technology already exists.<br>WeatherGPT connects it intelligently.</h2>
+    </div>
+    <div class="orbit-wrap reveal" id="orbitWrap">
+      <div class="orbit-center">WeatherGPT</div>
+    </div>
+    <div class="module-grid reveal">
+      <div class="module-card">Weather ingestion</div>
+      <div class="module-card">AI processing</div>
+      <div class="module-card">Alerts</div>
+      <div class="module-card">Travel analysis</div>
+      <div class="module-card">Personalization</div>
+    </div>
+    <p class="small-note reveal" style="text-align:center; margin-top:22px;">Each module can be developed independently and scaled on its own.</p>
+  </div>
+</section>
+
+<!-- ===================== SECTION 19 — FINAL STORYTELLING ===================== -->
+<section id="final">
+ <div class="final-sticky">
+  <div class="final-stage" data-stage="0">
+    <div class="final-numbers">
+      <div>31°C</div>
+      <div>72%<span>Rain</span></div>
+      <div>78%<span>Humidity</span></div>
+    </div>
+  </div>
+  <div class="final-stage" data-stage="1">
+    <div class="final-line">Location + Schedule + User Context</div>
+  </div>
+  <div class="final-stage" data-stage="2">
+    <div class="final-line">Rule Engine → AI</div>
+  </div>
+  <div class="final-stage" data-stage="3">
+    <div class="final-line">"Rain is expected during your college commute.<br>Carry an umbrella."</div>
+  </div>
+  <div class="final-stage" data-stage="4">
+    <div class="final-giant">WEATHER <span class="grad">IS DATA.</span><br>DECISIONS <span class="grad">CREATE IMPACT.</span></div>
+  </div>
+  <div class="final-stage" data-stage="5">
+    <div class="final-logo">WeatherGPT</div>
+    <div class="final-tag">From weather information to personalized weather decisions.</div>
+    <a href="#chat" class="btn btn-primary btn-lg" style="margin-top:26px;">Try WeatherGPT</a>
+  </div>
+  <div class="final-dots" id="finalDots"></div>
+ </div>
+</section>
+
+<footer>
+  <div>WeatherGPT — Smart India Hackathon 2026 · Problem Statement SIH26068</div>
+  <div class="fteam">Team Bihari Tech Titans · Disaster Management · Software</div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
